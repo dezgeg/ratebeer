@@ -1,71 +1,58 @@
+Luo panimo Hartwall ja sille kolme olutta kaikkia kolmea yllä demonstroitua tapaa käyttäen.
 
-Loading development environment (Rails 4.0.2)
-2.0.0-p195 :001 > hw = Brewery.create(name: 'Hartwall', year: 2014)
-   (0.2ms)  begin transaction
-  SQL (4.0ms)  INSERT INTO "breweries" ("created_at", "name", "updated_at", "year") VALUES (?, ?, ?, ?)  [["created_at", Sun, 19 Jan 2014 18:38:01 UTC +00:00], ["name", "Hartwall"], ["updated_at", Sun, 19 Jan 2014 18:38:01 UTC +00:00], ["year", 2014]]
-   (27.5ms)  commit transaction
- => #<Brewery id: 4, name: "Hartwall", year: 2014, created_at: "2014-01-19 18:38:01", updated_at: "2014-01-19 18:38:01"> 
-2.0.0-p195 :002 > hw.beers.create name: "Beer 1"
-   (0.1ms)  begin transaction
-  SQL (0.6ms)  INSERT INTO "beers" ("brewery_id", "created_at", "name", "updated_at") VALUES (?, ?, ?, ?)  [["brewery_id", 4], ["created_at", Sun, 19 Jan 2014 18:38:31 UTC +00:00], ["name", "Beer 1"], ["updated_at", Sun, 19 Jan 2014 18:38:31 UTC +00:00]]
-   (21.0ms)  commit transaction
- => #<Beer id: 8, name: "Beer 1", style: nil, brewery_id: 4, created_at: "2014-01-19 18:38:31", updated_at: "2014-01-19 18:38:31"> 
-2.0.0-p195 :003 > b2 = Beer.create name: "Beer 2", brewery: hw
-   (0.3ms)  begin transaction
-  SQL (0.9ms)  INSERT INTO "beers" ("brewery_id", "created_at", "name", "updated_at") VALUES (?, ?, ?, ?)  [["brewery_id", 4], ["created_at", Sun, 19 Jan 2014 18:41:57 UTC +00:00], ["name", "Beer 2"], ["updated_at", Sun, 19 Jan 2014 18:41:57 UTC +00:00]]
-   (27.6ms)  commit transaction
- => #<Beer id: 9, name: "Beer 2", style: nil, brewery_id: 4, created_at: "2014-01-19 18:41:57", updated_at: "2014-01-19 18:41:57"> 
-2.0.0-p195 :004 > b3 = Beer.create name: "Beer 3"
-   (0.2ms)  begin transaction
-  SQL (0.9ms)  INSERT INTO "beers" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Sun, 19 Jan 2014 18:42:21 UTC +00:00], ["name", "Beer 3"], ["updated_at", Sun, 19 Jan 2014 18:42:21 UTC +00:00]]
-   (19.7ms)  commit transaction
- => #<Beer id: 10, name: "Beer 3", style: nil, brewery_id: nil, created_at: "2014-01-19 18:42:21", updated_at: "2014-01-19 18:42:21"> 
-2.0.0-p195 :005 > hw.beers << b3
-   (0.2ms)  begin transaction
-  SQL (1.0ms)  UPDATE "beers" SET "brewery_id" = ?, "updated_at" = ? WHERE "beers"."id" = 10  [["brewery_id", 4], ["updated_at", Sun, 19 Jan 2014 18:42:37 UTC +00:00]]
-   (28.0ms)  commit transaction
-  Beer Load (0.6ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = ?  [["brewery_id", 4]]
- => #<ActiveRecord::Associations::CollectionProxy [#<Beer id: 8, name: "Beer 1", style: nil, brewery_id: 4, created_at: "2014-01-19 18:38:31", updated_at: "2014-01-19 18:38:31">, #<Beer id: 9, name: "Beer 2", style: nil, brewery_id: 4, created_at: "2014-01-19 18:41:57", updated_at: "2014-01-19 18:41:57">, #<Beer id: 10, name: "Beer 3", style: nil, brewery_id: 4, created_at: "2014-01-19 18:42:21", updated_at: "2014-01-19 18:42:37">]> 
-2.0.0-p195 :006 > hw.id
- => 4 
-2.0.0-p195 :007 > hw.destroy
-   (0.3ms)  begin transaction
-  SQL (0.7ms)  DELETE FROM "breweries" WHERE "breweries"."id" = ?  [["id", 4]]
-   (26.3ms)  commit transaction
- => #<Brewery id: 4, name: "Hartwall", year: 2014, created_at: "2014-01-19 18:38:01", updated_at: "2014-01-19 18:38:01"> 
-2.0.0-p195 :008 > Beer.where id: 4
-  Beer Load (0.6ms)  SELECT "beers".* FROM "beers" WHERE "beers"."id" = 4
- => #<ActiveRecord::Relation [#<Beer id: 4, name: "Huvila Pale Ale", style: "Pale Ale", brewery_id: 2, created_at: "2014-01-19 18:36:14", updated_at: "2014-01-19 18:36:14">]> 
-2.0.0-p195 :009 > Beer.where brewery_id: 4
-  Beer Load (0.6ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = 4
- => #<ActiveRecord::Relation [#<Beer id: 8, name: "Beer 1", style: nil, brewery_id: 4, created_at: "2014-01-19 18:38:31", updated_at: "2014-01-19 18:38:31">, #<Beer id: 9, name: "Beer 2", style: nil, brewery_id: 4, created_at: "2014-01-19 18:41:57", updated_at: "2014-01-19 18:41:57">, #<Beer id: 10, name: "Beer 3", style: nil, brewery_id: 4, created_at: "2014-01-19 18:42:21", updated_at: "2014-01-19 18:42:37">]> 
-2.0.0-p195 :010 > Beer.where(brewery_id: 4).delete
-ArgumentError: wrong number of arguments (0 for 1)
-	from /home/tmtynkky/.rvm/gems/ruby-2.0.0-p195/gems/activerecord-4.0.2/lib/active_record/relation.rb:460:in `delete'
-	from (irb):10
-	from /home/tmtynkky/.rvm/gems/ruby-2.0.0-p195/gems/railties-4.0.2/lib/rails/commands/console.rb:90:in `start'
-	from /home/tmtynkky/.rvm/gems/ruby-2.0.0-p195/gems/railties-4.0.2/lib/rails/commands/console.rb:9:in `start'
-	from /home/tmtynkky/.rvm/gems/ruby-2.0.0-p195/gems/railties-4.0.2/lib/rails/commands.rb:62:in `<top (required)>'
-	from bin/rails:4:in `require'
-	from bin/rails:4:in `<main>'
-2.0.0-p195 :011 > Beer.where(brewery_id: 4).destroy
-ArgumentError: wrong number of arguments (0 for 1)
-	from /home/tmtynkky/.rvm/gems/ruby-2.0.0-p195/gems/activerecord-4.0.2/lib/active_record/relation.rb:392:in `destroy'
-	from (irb):11
-	from /home/tmtynkky/.rvm/gems/ruby-2.0.0-p195/gems/railties-4.0.2/lib/rails/commands/console.rb:90:in `start'
-	from /home/tmtynkky/.rvm/gems/ruby-2.0.0-p195/gems/railties-4.0.2/lib/rails/commands/console.rb:9:in `start'
-	from /home/tmtynkky/.rvm/gems/ruby-2.0.0-p195/gems/railties-4.0.2/lib/rails/commands.rb:62:in `<top (required)>'
-	from bin/rails:4:in `require'
-	from bin/rails:4:in `<main>'
-2.0.0-p195 :012 > Beer.where(brewery_id: 4).destroy_all
-  Beer Load (0.5ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = 4
-   (0.2ms)  begin transaction
-  SQL (0.6ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 8]]
-   (20.8ms)  commit transaction
-   (0.2ms)  begin transaction
-  SQL (0.4ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 9]]
-   (20.7ms)  commit transaction
-   (0.2ms)  begin transaction
-  SQL (0.4ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 10]]
-   (19.0ms)  commit transaction
- => [#<Beer id: 8, name: "Beer 1", style: nil, brewery_id: 4, created_at: "2014-01-19 18:38:31", updated_at: "2014-01-19 18:38:31">, #<Beer id: 9, name: "Beer 2", style: nil, brewery_id: 4, created_at: "2014-01-19 18:41:57", updated_at: "2014-01-19 18:41:57">, #<Beer id: 10, name: "Beer 3", style: nil, brewery_id: 4, created_at: "2014-01-19 18:42:21", updated_at: "2014-01-19 18:42:37">] 
+    Loading development environment (Rails 4.0.2)
+    2.0.0-p195 :001 > hw = Brewery.create(name: 'Hartwall', year: 2014)
+    (0.2ms)  begin transaction
+    SQL (4.0ms)  INSERT INTO "breweries" ("created_at", "name", "updated_at", "year") VALUES (?, ?, ?, ?)  [["created_at", Sun, 19 Jan 2014 18:38:01 UTC +00:00], ["name", "Hartwall"], ["updated_at", Sun, 19 Jan 2014 18:38:01 UTC +00:00], ["year", 2014]]
+    (27.5ms)  commit transaction
+    => #<Brewery id: 4, name: "Hartwall", year: 2014, created_at: "2014-01-19 18:38:01", updated_at: "2014-01-19 18:38:01"> 
+    2.0.0-p195 :002 > hw.beers.create name: "Beer 1"
+    (0.1ms)  begin transaction
+    SQL (0.6ms)  INSERT INTO "beers" ("brewery_id", "created_at", "name", "updated_at") VALUES (?, ?, ?, ?)  [["brewery_id", 4], ["created_at", Sun, 19 Jan 2014 18:38:31 UTC +00:00], ["name", "Beer 1"], ["updated_at", Sun, 19 Jan 2014 18:38:31 UTC +00:00]]
+    (21.0ms)  commit transaction
+    => #<Beer id: 8, name: "Beer 1", style: nil, brewery_id: 4, created_at: "2014-01-19 18:38:31", updated_at: "2014-01-19 18:38:31"> 
+    2.0.0-p195 :003 > b2 = Beer.create name: "Beer 2", brewery: hw
+    (0.3ms)  begin transaction
+    SQL (0.9ms)  INSERT INTO "beers" ("brewery_id", "created_at", "name", "updated_at") VALUES (?, ?, ?, ?)  [["brewery_id", 4], ["created_at", Sun, 19 Jan 2014 18:41:57 UTC +00:00], ["name", "Beer 2"], ["updated_at", Sun, 19 Jan 2014 18:41:57 UTC +00:00]]
+    (27.6ms)  commit transaction
+    => #<Beer id: 9, name: "Beer 2", style: nil, brewery_id: 4, created_at: "2014-01-19 18:41:57", updated_at: "2014-01-19 18:41:57"> 
+    2.0.0-p195 :004 > b3 = Beer.create name: "Beer 3"
+    (0.2ms)  begin transaction
+    SQL (0.9ms)  INSERT INTO "beers" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Sun, 19 Jan 2014 18:42:21 UTC +00:00], ["name", "Beer 3"], ["updated_at", Sun, 19 Jan 2014 18:42:21 UTC +00:00]]
+    (19.7ms)  commit transaction
+    => #<Beer id: 10, name: "Beer 3", style: nil, brewery_id: nil, created_at: "2014-01-19 18:42:21", updated_at: "2014-01-19 18:42:21"> 
+    2.0.0-p195 :005 > hw.beers << b3
+    (0.2ms)  begin transaction
+    SQL (1.0ms)  UPDATE "beers" SET "brewery_id" = ?, "updated_at" = ? WHERE "beers"."id" = 10  [["brewery_id", 4], ["updated_at", Sun, 19 Jan 2014 18:42:37 UTC +00:00]]
+    (28.0ms)  commit transaction
+    Beer Load (0.6ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = ?  [["brewery_id", 4]]
+    => #<ActiveRecord::Associations::CollectionProxy [#<Beer id: 8, name: "Beer 1", style: nil, brewery_id: 4, created_at: "2014-01-19 18:38:31", updated_at: "2014-01-19 18:38:31">, #<Beer id: 9, name: "Beer 2", style: nil, brewery_id: 4, created_at: "2014-01-19 18:41:57", updated_at: "2014-01-19 18:41:57">, #<Beer id: 10, name: "Beer 3", style: nil, brewery_id: 4, created_at: "2014-01-19 18:42:21", updated_at: "2014-01-19 18:42:37">]> 
+
+Päädymme kuitenkin siihen että Hartwall on huonon laatunsa takia poistettava. Ennen poistamista, ota muistiin Hartwall-olion id
+Hartwallin poistaminen jättää tietokantaan olut-olioita, jotka liittyvät jo poistettuun panimoon
+    2.0.0-p195 :006 > hw.id
+    => 4 
+    2.0.0-p195 :007 > hw.destroy
+    (0.3ms)  begin transaction
+    SQL (0.7ms)  DELETE FROM "breweries" WHERE "breweries"."id" = ?  [["id", 4]]
+    (26.3ms)  commit transaction
+    => #<Brewery id: 4, name: "Hartwall", year: 2014, created_at: "2014-01-19 18:38:01", updated_at: "2014-01-19 18:38:01"> 
+
+Hae orvoksi jääneet oluet komennolla Beer.where tähänsopivaparametri
+    2.0.0-p195 :009 > Beer.where brewery_id: 4
+    Beer Load (0.6ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = 4
+    => #<ActiveRecord::Relation [#<Beer id: 8, name: "Beer 1", style: nil, brewery_id: 4, created_at: "2014-01-19 18:38:31", updated_at: "2014-01-19 18:38:31">, #<Beer id: 9, name: "Beer 2", style: nil, brewery_id: 4, created_at: "2014-01-19 18:41:57", updated_at: "2014-01-19 18:41:57">, #<Beer id: 10, name: "Beer 3", style: nil, brewery_id: 4, created_at: "2014-01-19 18:42:21", updated_at: "2014-01-19 18:42:37">]> 
+
+Tuhoa operaation palauttamat oluet. 
+    2.0.0-p195 :012 > Beer.where(brewery_id: 4).destroy_all
+    Beer Load (0.5ms)  SELECT "beers".* FROM "beers" WHERE "beers"."brewery_id" = 4
+    (0.2ms)  begin transaction
+    SQL (0.6ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 8]]
+    (20.8ms)  commit transaction
+    (0.2ms)  begin transaction
+    SQL (0.4ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 9]]
+    (20.7ms)  commit transaction
+    (0.2ms)  begin transaction
+    SQL (0.4ms)  DELETE FROM "beers" WHERE "beers"."id" = ?  [["id", 10]]
+    (19.0ms)  commit transaction
+    => [#<Beer id: 8, name: "Beer 1", style: nil, brewery_id: 4, created_at: "2014-01-19 18:38:31", updated_at: "2014-01-19 18:38:31">, #<Beer id: 9, name: "Beer 2", style: nil, brewery_id: 4, created_at: "2014-01-19 18:41:57", updated_at: "2014-01-19 18:41:57">, #<Beer id: 10, name: "Beer 3", style: nil, brewery_id: 4, created_at: "2014-01-19 18:42:21", updated_at: "2014-01-19 18:42:37">] 
