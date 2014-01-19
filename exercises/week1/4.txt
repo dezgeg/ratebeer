@@ -1,0 +1,33 @@
+
+2.0.0-p195 :001 > Brewery.create name: "Kumpulan panimo", year: 2012
+   (0.2ms)  begin transaction
+  SQL (4.0ms)  INSERT INTO "breweries" ("created_at", "name", "updated_at", "year") VALUES (?, ?, ?, ?)  [["created_at", Sun, 19 Jan 2014 17:41:37 UTC +00:00], ["name", "Kumpulan panimo"], ["updated_at", Sun, 19 Jan 2014 17:41:37 UTC +00:00], ["year", 2012]]
+   (35.8ms)  commit transaction
+ => #<Brewery id: 1, name: "Kumpulan panimo", year: 2012, created_at: "2014-01-19 17:41:37", updated_at: "2014-01-19 17:41:37"> 
+2.0.0-p195 :002 > kumpula = Brewery.find_by_name 'Kumpulan panimo'
+  Brewery Load (0.8ms)  SELECT "breweries".* FROM "breweries" WHERE "breweries"."name" = 'Kumpulan panimo' LIMIT 1
+ => #<Brewery id: 1, name: "Kumpulan panimo", year: 2012, created_at: "2014-01-19 17:41:37", updated_at: "2014-01-19 17:41:37"> 
+2.0.0-p195 :003 > kumpula.year = 2014
+ => 2014 
+2.0.0-p195 :004 > kumpula.save
+   (0.3ms)  begin transaction
+  SQL (1.0ms)  UPDATE "breweries" SET "year" = ?, "updated_at" = ? WHERE "breweries"."id" = 1  [["year", 2014], ["updated_at", Sun, 19 Jan 2014 17:42:20 UTC +00:00]]
+   (22.3ms)  commit transaction
+ => true 
+2.0.0-p195 :005 > kumpula = Brewery.find_by_name 'Kumpulan panimo'
+  Brewery Load (0.5ms)  SELECT "breweries".* FROM "breweries" WHERE "breweries"."name" = 'Kumpulan panimo' LIMIT 1
+ => #<Brewery id: 1, name: "Kumpulan panimo", year: 2014, created_at: "2014-01-19 17:41:37", updated_at: "2014-01-19 17:42:20"> 
+2.0.0-p195 :006 > kumpula.year
+ => 2014 
+2.0.0-p195 :007 > kumpula.created_at
+ => Sun, 19 Jan 2014 17:41:37 UTC +00:00 
+2.0.0-p195 :008 > kumpula.updated_at
+ => Sun, 19 Jan 2014 17:42:20 UTC +00:00 
+2.0.0-p195 :009 > kumpula.destroy
+   (0.2ms)  begin transaction
+  SQL (0.7ms)  DELETE FROM "breweries" WHERE "breweries"."id" = ?  [["id", 1]]
+   (21.2ms)  commit transaction
+ => #<Brewery id: 1, name: "Kumpulan panimo", year: 2014, created_at: "2014-01-19 17:41:37", updated_at: "2014-01-19 17:42:20"> 
+2.0.0-p195 :010 > Brewery.all
+  Brewery Load (0.5ms)  SELECT "breweries".* FROM "breweries"
+ => #<ActiveRecord::Relation []> 
