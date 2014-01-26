@@ -1,7 +1,9 @@
 Ratebeer::Application.routes.draw do
   resources :beers
   resources :breweries
-  get 'ratings', to: 'ratings#index'
+  get  'ratings', to: 'ratings#index'
+  post 'ratings', to: 'ratings#create'
+  get  'ratings/new', to:'ratings#new'
 
   root 'breweries#index'
 
