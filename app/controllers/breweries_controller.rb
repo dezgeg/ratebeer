@@ -1,5 +1,6 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, only: [:destroy]
 
   # GET /breweries
   # GET /breweries.json
@@ -65,6 +66,12 @@ class BreweriesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_brewery
       @brewery = Brewery.find(params[:id])
+    end
+
+    def authenticate
+      authenticate_or_request_with_http_basic do |username, password|
+        username == "admin" and password == "secret"
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
