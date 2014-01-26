@@ -1,5 +1,6 @@
 class BeersController < ApplicationController
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
+  before_action :set_breweries, only: [:new, :edit]
 
   # GET /beers
   # GET /beers.json
@@ -28,7 +29,7 @@ class BeersController < ApplicationController
 
     respond_to do |format|
       if @beer.save
-        format.html { redirect_to @beer, notice: 'Beer was successfully created.' }
+        format.html { redirect_to beers_path, notice: 'Beer was successfully created.' }
         format.json { render action: 'show', status: :created, location: @beer }
       else
         format.html { render action: 'new' }
@@ -42,7 +43,7 @@ class BeersController < ApplicationController
   def update
     respond_to do |format|
       if @beer.update(beer_params)
-        format.html { redirect_to @beer, notice: 'Beer was successfully updated.' }
+        format.html { redirect_to beers_path, notice: 'Beer was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -65,6 +66,10 @@ class BeersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_beer
       @beer = Beer.find(params[:id])
+    end
+
+    def set_breweries
+      @breweries = Brewery.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
