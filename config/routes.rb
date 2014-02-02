@@ -1,6 +1,7 @@
 Ratebeer::Application.routes.draw do
   resources :users
   get 'signup', to: 'users#new'
+  delete 'signout', to: 'sessions#destroy'
   resources :sessions, only: [:new, :create]
 
   resources :beers
