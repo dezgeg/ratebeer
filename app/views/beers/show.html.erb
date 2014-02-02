@@ -17,7 +17,7 @@
 
 <p>
   <% if @beer.ratings.empty? %>
-      No ratings.
+    No ratings.
   <% else %>
     <%= "#{@beer.ratings.size} #{'rating'.pluralize @beer.ratings.size}" %>,
     average <%= @beer.average_rating %>
