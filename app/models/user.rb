@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  has_many :ratings
+  has_many :ratings, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :beer_clubs, through: :memberships
 end
