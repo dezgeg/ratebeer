@@ -1,5 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :set_beer_clubs, only: [:new, :create, :edit]
 
   # GET /memberships
   # GET /memberships.json
@@ -25,6 +26,7 @@ class MembershipsController < ApplicationController
   # POST /memberships.json
   def create
     @membership = Membership.new(membership_params)
+    @membership.user = current_user
 
     respond_to do |format|
       if @membership.save
@@ -67,8 +69,12 @@ class MembershipsController < ApplicationController
       @membership = Membership.find(params[:id])
     end
 
+    def set_beer_clubs
+      @beer_clubs = BeerClub.all
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
-      params.require(:membership).permit(:user_id, :beer_club_id)
+      params.require(:membership).permit(:beer_club_id)
     end
 end

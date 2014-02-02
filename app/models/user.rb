@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
 
   has_many :ratings
   has_many :memberships, dependent: :destroy
+  has_many :beer_clubs, through: :memberships
 end

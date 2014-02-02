@@ -15,5 +15,12 @@ has <%= @user.ratings.size %> ratings
 <% end %>
 </ul>
 
+<h2>Club memberships</h2>
+<ul>
+  <% @user.beer_clubs.each do |beer_club| %>
+    <li><%= link_to beer_club.name, beer_club %></li>
+  <% end %>
+</ul>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
