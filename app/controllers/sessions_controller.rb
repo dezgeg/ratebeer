@@ -4,11 +4,11 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by username: params[:username]
-    if user
+    if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to user
     else
-      redirect_to :back, notice: "User '#{params[:username]}' does not exist.'"
+      redirect_to :back, notice: "Login failed as '#{params[:username]}'.'"
     end
   end
 
