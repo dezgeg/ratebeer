@@ -1,6 +1,6 @@
 class BeersController < ApplicationController
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
-  before_action :set_form_variables, only: [:new, :edit]
+  before_action :set_form_variables, only: [:new, :edit, :create, :update]
 
   # GET /beers
   # GET /beers.json
