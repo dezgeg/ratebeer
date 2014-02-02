@@ -1,4 +1,6 @@
 class RatingsController < ApplicationController
+  before_action :set_beers, only: [:new, :create]
+
   def index
     @ratings = Rating.all
   end
@@ -9,10 +11,13 @@ class RatingsController < ApplicationController
   end
 
   def create
-    r = Rating.new params.require(:rating).permit(:score, :beer_id)
-    r.user = current_user
-    r.save!
-    redirect_to current_user
+    @rating = Rating.new params.require(:rating).permit(:score, :beer_id)
+    @rating.user = current_user
+    if @rating.user && @rating.save
+      redirect_to current_user
+    else
+      render :new
+    end
   end
 
   def destroy
@@ -20,5 +25,10 @@ class RatingsController < ApplicationController
     raise "Can't destroy" if r.user != current_user
     r.destroy
     redirect_to :back
+  end
+
+  private
+  def set_beers
+    @beers = Beer.all
   end
 end
