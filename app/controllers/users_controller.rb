@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :check_is_current_user, only: [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -65,6 +66,10 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def check_is_current_user
+      redirect_to :back, notice: "You're not that user" unless @user == current_user
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
