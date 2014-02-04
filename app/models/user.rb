@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validate :password_must_be_complex
 
   def password_must_be_complex
-    unless password.length >= 4 and [/[A-Z]/, /[0-9]/].all? { |r| password =~ r }
+    unless password and password.length >= 4 and [/[A-Z]/, /[0-9]/].all? { |r| password =~ r }
       errors.add :password, "must be complex"
     end
   end
