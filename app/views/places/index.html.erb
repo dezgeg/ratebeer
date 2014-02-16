@@ -1,0 +1,31 @@
+<h1>Beer places search</h1>
+
+<%= form_tag places_path do %>
+  city <%= text_field_tag :city, params[:city] %>
+  <%= submit_tag "Search" %>
+
+  <ul>
+    <% @places.each do |place| %>
+      <li><%=place.name %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% unless @places.empty? %>
+  <table>
+    <thead>
+      <% Place.rendered_fields.each do |f| %>
+        <td><%=f %></td>
+      <% end %>
+    </thead>
+    <% @places.each do |place| %>
+      <tr>
+        <% Place.rendered_fields.each do |f| %>
+          <td><%= place.send(f) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  No results.
+<% end %>
