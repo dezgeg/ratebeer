@@ -1,5 +1,10 @@
 class BeermappingApi
   def self.places_in(city)
+    city = city.strip.downcase
+    Rails.cache.fetch(city, expires_in: 1.week.to_i) { fetch_places_in(city) }
+  end
+
+  def self.fetch_places_in(city)
     api_key = ENV['BEERMAPPING_API_KEY']
     url = "http://beermapping.com/webservice/loccity/#{api_key}"
 
