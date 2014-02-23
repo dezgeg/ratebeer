@@ -8,6 +8,8 @@ Ratebeer::Application.routes.draw do
   delete 'signout', to: 'sessions#destroy'
   resources :sessions, only: [:new, :create]
 
+  get 'beers/list', to: 'beers#list'
+  get 'beers/nglist', to: 'beers#nglist'
   resources :beers
   resources :breweries
   resources :ratings, only: [:index, :new, :create, :destroy]
