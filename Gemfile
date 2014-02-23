@@ -16,6 +16,9 @@ end
 
 group :test do
   gem 'simplecov'
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 # Use SCSS for stylesheets
