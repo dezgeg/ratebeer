@@ -3,12 +3,6 @@
 <%= form_tag places_path do %>
   city <%= text_field_tag :city, params[:city] %>
   <%= submit_tag "Search" %>
-
-  <ul>
-    <% @places.each do |place| %>
-      <li><%=place.name %></li>
-    <% end %>
-  </ul>
 <% end %>
 
 <% unless @places.empty? %>
@@ -18,10 +12,16 @@
         <td><%=f %></td>
       <% end %>
     </thead>
-    <% @places.each do |place| %>
+    <% @places.each_with_index do |place, index| %>
       <tr>
         <% Place.rendered_fields.each do |f| %>
-          <td><%= place.send(f) %></td>
+          <td>
+            <% if f == :name %>
+              <%= link_to place.send(f), place_path(@city, index) %>
+            <% else %>
+              <%= place.send(f) %>
+            <% end %>
+          </td>
         <% end %>
       </tr>
     <% end %>

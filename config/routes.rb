@@ -14,6 +14,7 @@ Ratebeer::Application.routes.draw do
 
   get 'places', to: 'places#index'
   post 'places', to: 'places#search'
+  get 'places/:city/:index', to: 'places#show', as: 'place'
 
   root 'breweries#index'
 
