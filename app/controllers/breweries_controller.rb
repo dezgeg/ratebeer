@@ -5,7 +5,9 @@ class BreweriesController < ApplicationController
   # GET /breweries
   # GET /breweries.json
   def index
-    @breweries = Brewery.all
+    allowed_orders = ['name', 'year']
+    order = allowed_orders.include?(params[:order]) ? params[:order] : 'name'
+    @breweries = Brewery.all.order(order)
   end
 
   # GET /breweries/1
