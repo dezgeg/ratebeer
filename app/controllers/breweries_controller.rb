@@ -10,6 +10,9 @@ class BreweriesController < ApplicationController
     @breweries = Brewery.all.order(order)
   end
 
+  def nglist
+  end
+
   # GET /breweries/1
   # GET /breweries/1.json
   def show

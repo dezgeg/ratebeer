@@ -11,6 +11,7 @@ Ratebeer::Application.routes.draw do
   get 'beers/list', to: 'beers#list'
   get 'beers/nglist', to: 'beers#nglist'
   resources :beers
+  get 'breweries/nglist', to: 'breweries#nglist'
   resources :breweries
   resources :ratings, only: [:index, :new, :create, :destroy]
 
