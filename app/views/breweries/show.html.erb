@@ -16,7 +16,7 @@
       No ratings.
   <% else %>
     <%= "#{@brewery.ratings.size} #{'rating'.pluralize @brewery.ratings.size}" %>,
-    average <%= @brewery.average_rating %>
+    average <%= round_average @brewery.average_rating %>
   <% end %>
 </p>
 

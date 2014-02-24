@@ -6,7 +6,7 @@ has <%= @user.ratings.size %> ratings
   No ratings.
 <% else %>
   <%= "#{@user.ratings.size} #{'rating'.pluralize @user.ratings.size}" %>,
-  average <%= @user.average_rating %>
+  average <%= round_average @user.average_rating %>
 <% end %>
 
 <ul>
