@@ -2,7 +2,10 @@ class RatingsController < ApplicationController
   before_action :set_beers, only: [:new, :create]
 
   def index
-    @ratings = Rating.all
+    @recent_ratings = Rating.recent
+    @top_beers = Beer.top_rated(3)
+    @top_breweries = Brewery.top_rated(3)
+    @top_users = User.top_raters(3)
   end
 
   def new

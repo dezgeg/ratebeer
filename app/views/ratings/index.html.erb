@@ -1,9 +1,17 @@
-<h2>List of ratings</h2>
-
+<h2>Recent ratings</h2>
 <ul>
-  <% @ratings.each do |rating| %>
+  <% @recent_ratings.each do |rating| %>
     <li><%= rating %> <%= link_to rating.user.username, rating.user %> </li>
   <% end %>
 </ul>
+
+<h2>Top beers</h2>
+<%= render 'beers/table', beers: @top_beers %>
+
+<h2>Top breweries</h2>
+<%= render 'breweries/table', breweries: @top_breweries %>
+
+<h2>Top users</h2>
+<%= render 'users/table', users: @top_users %>
 
 <%= link_to 'Create a rating', new_rating_path %>
